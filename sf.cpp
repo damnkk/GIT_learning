@@ -7,6 +7,6 @@ int main()
 {
     std::cout<<"shabi"<<std::endl;
     std::unique_ptr<int> intArray(new int[10]);
-
+    
 
 };

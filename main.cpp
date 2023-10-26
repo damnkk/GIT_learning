@@ -1,8 +1,9 @@
-#include <__msvc_chrono.hpp>
+
 #include <chrono>
 #include <conio.h>
 #include <easyx.h>
 #include <geometry.h>
+#include "physicalSolver.h"
 #include <graphics.h>
 #include <iostream>
 #include <random>
@@ -10,41 +11,18 @@
 #include <wingdi.h>
 
 int main() {
-  windowExtent = glm::vec2(640, 480.0f);
+  windowExtent=glm::vec2(1020,720);
+  //glm::vec2 windowExtent = glm::vec2(720, 720.0f);
   initgraph(windowExtent.x, windowExtent.y);
-
-  Basket bs(0.6, 0.2);
-  Ball ball;
-  decltype(std::chrono::system_clock::now()) start, end;
-  start = std::chrono::system_clock::now();
+  PhysicalSolver pSolver;
   while (true) {
     BeginBatchDraw();
     cleardevice();
-
-    // 绘制篮筐
-    bs.draw();
-
-    // 设置篮球颜色
-    setlinecolor(RED);
-    ball.draw();
-    setlinecolor(WHITE);
-    clearcircle(ball.m_ball.m_center.x, ball.m_ball.m_center.y,
-                ball.m_ball.m_radius);
-    auto end = std::chrono::system_clock::now();
-    auto duration =
-        std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    double time = double(duration.count()) *
-                  std::chrono::microseconds::period::num /
-                  std::chrono::microseconds::period::den;
-    ball.update(time);
-    // if (c.m_center.x > 1.0f) {
-    //   c.m_center.x = 0;
-    // } else if (c.m_center.y > 1.0f)
-    //   c.m_center.y = 0;
-
-    // Sleep(1);
+    pSolver.addParticlePerFrame(20000);
+    pSolver.solve();
+    //solidcircle(500, 500, 3);
     FlushBatchDraw();
-    start = std::chrono::system_clock::now();
+    ++PhysicalSolver::m_frameCount;
   }
   EndBatchDraw();
   return 0;

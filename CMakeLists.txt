@@ -8,7 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 message("------------------------")
 set(sources ./src/geometry.cpp
-            ./src/physicalSolver.cpp)
+            ./src/physicalSolver.cpp
+            ./src/accelerateGrid.cpp
+            ./include/threadPool.hpp)
             message("${sources}")
 add_executable(ball main.cpp ${sources})
 target_include_directories(ball PUBLIC 
